@@ -28,9 +28,9 @@ CREATE TABLE crm_cust_info (
 	cst_key	VARCHAR(50),
 	cst_firstname VARCHAR(50),
 	cst_lastname VARCHAR(50),	
-	cst_marital_status	VARCHAR(50),
+	cst_marital_status VARCHAR(50),
 	cst_gndr VARCHAR(50),
-	cst_create_date VARCHAR(50)
+	cst_create_date DATE
 );
 
 -- Product infomation table
@@ -48,11 +48,11 @@ CREATE TABLE crm_prd_info (
 -- Sales Details table
 DROP TABLE IF EXISTS crm_sales_details;
 CREATE TABLE crm_sales_details (
-	sls_ord_num	VARCHAR(50),
-	sls_prd_key	VARCHAR(50),
-	sls_cust_id	INT,
+	sls_ord_num VARCHAR(50),
+	sls_prd_key VARCHAR(50),
+	sls_cust_id INT,
 	sls_order_dt INT,	
-	sls_ship_dt	INT,
+	sls_ship_dt INT,
 	sls_due_dt INT,
 	sls_sales INT,
 	sls_quantity INT,	
