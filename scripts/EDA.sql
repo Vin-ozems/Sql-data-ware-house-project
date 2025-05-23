@@ -147,15 +147,18 @@ ORDER BY Total_sold_items DESC;
 
 -- RANKING ANALYSIS
 -- Which 5 product generate the highest Revenue
-SELECT
-p.product_name,
-Sum(f.sales) AS Total_revenue,
-ROW_NUMBER() OVER(ORDER BY sum(f.sales) DESC) AS rank_products
-FROM gold_fact_sales f
-LEFT JOIN gold_dim_product p
-	ON p.product_key = f.product_key
-GROUP BY p.product_name
-LIMIT 5;
+SELECT *
+FROM 	
+	(SELECT
+	p.product_name,
+	Sum(f.sales) AS Total_revenue,
+	ROW_NUMBER() OVER(ORDER BY sum(f.sales) DESC) AS rank_products
+	FROM gold_fact_sales f
+	LEFT JOIN gold_dim_product p
+		ON p.product_key = f.product_key
+	GROUP BY p.product_name) t
+WHERE rank_products <= 5;
+
 
 -- What are the 5 worst performing product in term of sales
 SELECT
@@ -168,7 +171,31 @@ GROUP BY p.product_name
 ORDER BY Total_revenue 
 LIMIT 5;
 
+-- Find the top 10 member who have generated the highest revenue
+SELECT
+	c.customer_key,
+	c.first_name,
+    c.last_name,
+    sum(f.sales) AS Total_revenue
+FROM gold_fact_sales f
+LEFT JOIN gold_dim_customer c
+	ON f.customer_key = c.customer_key
+GROUP BY c.customer_key, c.first_name, c.last_name
+ORDER BY Total_revenue DESC
+LIMIT 10;
 
+-- The 3 customers who placed fewer orders
+SELECT
+	c.customer_key,
+	c.first_name,
+    c.last_name,
+    count(DISTINCT order_number) AS Total_Orders
+FROM gold_fact_sales f
+LEFT JOIN gold_dim_customer c
+	ON f.customer_key = c.customer_key
+GROUP BY c.customer_key, c.first_name, c.last_name
+ORDER BY Total_Orders 
+LIMIT 3;
 
 
 
